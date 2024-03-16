@@ -15,6 +15,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import Link from "next/link";
 
 export default function Main() {
     const [isProvided, setIsProvided] = useState<boolean>(false);
@@ -34,12 +35,13 @@ export default function Main() {
     if (!isProvided) {
         return (
             <>
-                <div className="flex flex-col items-center justify-center">
-                    <Card className="w-[30%] ">
+                <div className="flex flex-row pt-40 justify-center items-center">
+                    <Card className="w-[26%] min-w-[300px]">
                         <CardHeader>
                             <CardTitle>Youtube Live Timestamp Creator</CardTitle>
                             <CardDescription className="">
-                                Allowing you to record important moments of the live
+                                Allowing you to record important moments of the live and export
+                                it as a timestamp.
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -47,13 +49,11 @@ export default function Main() {
                                 className="grid w-full items-center gap-4"
                                 onSubmit={formHandler}
                             >
+                                <Label htmlFor="youtube-url">Live URL</Label>
                                 <Input type="text" name="youtube-url"></Input>
                                 <Button type="submit"> Confirm </Button>
                             </form>
                         </CardContent>
-                        <CardFooter>
-                            <p>Created by Sam Lo ❤️</p>
-                        </CardFooter>
                     </Card>
                 </div>
             </>
