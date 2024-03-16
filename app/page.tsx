@@ -39,7 +39,7 @@ export default function Main() {
                         <CardHeader>
                             <CardTitle>Youtube Live Timestamp Creator</CardTitle>
                             <CardDescription className="">
-                                Allowing you to record imporant momenets of the live
+                                Allowing you to record important moments of the live
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
