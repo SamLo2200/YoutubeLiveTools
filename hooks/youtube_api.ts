@@ -1,15 +1,17 @@
 "use server";
 
 export default async function getVideoInfo(youtube_video_id: string) {
-    const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id=${youtube_video_id}&key=${process.env.API_KEY}`,
-        { cache: "no-store" }
-    );
+    try {
+        const response = await fetch(
+            `https://youtube.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id=${youtube_video_id}&key=${process.env.API_KEY}`
+        );
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
 
-    if (!res.ok) {
-        // This will activate the closest `error.js` Error Boundary
-        throw new Error("Failed to fetch data");
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error fetching data:", error);
     }
-
-    return res.json();
 }

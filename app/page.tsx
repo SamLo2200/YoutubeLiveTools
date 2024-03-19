@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FormEvent, useState } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 
 import { vidParser } from "@/util/vidParser";
 
@@ -16,21 +16,43 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
+import getVideoInfo from "@/hooks/youtube_api";
 
 export default function Main() {
     const [isProvided, setIsProvided] = useState<boolean>(false);
-    const [vid, setVid] = useState<String | null>("");
+    const [vid, setVid] = useState<string | null>();
+    const [videoInfoJson, setVideoInfoJson] = useState(null);
+    const [streamStartTime, setStreamStartTime] = useState();
 
-    const formHandler = (event: FormEvent<HTMLFormElement>) => {
+    //Obtain streaming info
+
+    async function apiRequestHandler() {
+        (async () => {
+            // console.log(vid);
+            setVideoInfoJson(await getVideoInfo(vid || "uWvRx-uawIk"));
+        })();
+    }
+
+    // useEffect(() => {
+    //     if (videoInfoJson != null) {
+    //         console.log(JSON.stringify(videoInfoJson));
+    //     }
+    // }, [videoInfoJson]);
+
+    //Handle the form submission in the landing page.
+
+    const FormHandler = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         const formData = new FormData(event.currentTarget);
 
-        console.log(formData.get("youtube-url"));
-
         setVid(vidParser(formData.get("youtube-url")?.toString() || ""));
         setIsProvided(true);
     };
+
+    useEffect(() => {
+        apiRequestHandler();
+    }, [vid]);
 
     if (!isProvided) {
         return (
@@ -47,7 +69,7 @@ export default function Main() {
                         <CardContent>
                             <form
                                 className="grid w-full items-center gap-4"
-                                onSubmit={formHandler}
+                                onSubmit={FormHandler}
                             >
                                 <Label htmlFor="youtube-url">Live URL</Label>
                                 <Input type="text" name="youtube-url"></Input>
@@ -61,7 +83,7 @@ export default function Main() {
     } else {
         return (
             <>
-                <p>{vid}</p>
+                <p></p>
             </>
         );
     }
