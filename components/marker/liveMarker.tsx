@@ -19,9 +19,12 @@ import { any } from "zod";
 
 export default function LiveMarker() {
     const [isProvided, setIsProvided] = useState<boolean>(false);
-    const [vid, setVid] = useState<string | null>();
-    const [videoInfoJson, setVideoInfoJson] = useState(null);
-    const [streamStartTime, setStreamStartTime] = useState();
+    const [vid, setVid] = useState<string | null>(null);
+    const [videoInfoJson, setVideoInfoJson] = useState<any>(null);
+    const [streamStartTime, setStreamStartTime] = useState<string | null>(null);
+    const [videoTitle, setVideoTitle] = useState<string | null>(null);
+    const [creator, setCreator] = useState<string | null>(null);
+    const [thumbnailURL, setThumbnailURL] = useState<string | null>(null);
 
     //Obtain streaming info
 
@@ -34,11 +37,28 @@ export default function LiveMarker() {
 
     useEffect(() => {
         if (videoInfoJson != null) {
-            for (const items in videoInfoJson as any) {
-                console.log(videoInfoJson[items]);
+            try {
+                console.log(videoInfoJson);
+
+                setStreamStartTime(
+                    videoInfoJson.items[0].liveStreamingDetails.actualStartTime
+                );
+                setVideoTitle(videoInfoJson.items[0].snippet.title);
+                setCreator(videoInfoJson.items[0].snippet.channelTitle);
+                setThumbnailURL(videoInfoJson.items[0].snippet.thumbnails.standard.url);
+            } catch (error: unknown) {
+                console.error(error);
             }
         }
     }, [videoInfoJson]);
+
+    useEffect(() => {
+        if (streamStartTime || videoTitle || creator || thumbnailURL) {
+            console.log(
+                `Title:${videoTitle}, Creator:${creator}, Start Time:${streamStartTime}, Thumbnail:${thumbnailURL}`
+            );
+        }
+    }, [streamStartTime, videoTitle, creator, thumbnailURL]);
 
     //Handle the form submission in the landing page.
 
@@ -84,10 +104,6 @@ export default function LiveMarker() {
             </>
         );
     } else {
-        return (
-            <>
-                <p></p>
-            </>
-        );
+        return <></>;
     }
 }
