@@ -16,6 +16,7 @@ import {
 import Link from "next/link";
 import getVideoInfo from "@/lib/youtube_api";
 import { any } from "zod";
+import Image from "next/image";
 
 export default function LiveMarker() {
     const [isProvided, setIsProvided] = useState<boolean>(false);
@@ -45,7 +46,7 @@ export default function LiveMarker() {
                 );
                 setVideoTitle(videoInfoJson.items[0].snippet.title);
                 setCreator(videoInfoJson.items[0].snippet.channelTitle);
-                setThumbnailURL(videoInfoJson.items[0].snippet.thumbnails.standard.url);
+                setThumbnailURL(videoInfoJson.items[0].snippet.thumbnails.maxres.url);
             } catch (error: unknown) {
                 console.error(error);
             }
@@ -104,6 +105,28 @@ export default function LiveMarker() {
             </>
         );
     } else {
-        return <></>;
+        return (
+            <>
+                <div className="video-info-card flex flex-row pt-40 justify-center items-center">
+                    <Card className="w-[26%] min-w-[300px]">
+                        <div className="">
+                            <CardTitle className="m-7 leading-6">{videoTitle}</CardTitle>
+                            <CardDescription className="m-7 -mt-5">{creator}</CardDescription>
+                            <CardContent className="-mt-3">
+                                {thumbnailURL && (
+                                    <Image
+                                        src={thumbnailURL}
+                                        height="280"
+                                        width="640"
+                                        alt="The video thumbnaill"
+                                        className="rounded-2xl"
+                                    />
+                                )}
+                            </CardContent>
+                        </div>
+                    </Card>
+                </div>
+            </>
+        );
     }
 }
