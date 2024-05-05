@@ -1,5 +1,7 @@
 "use server";
 
+import { text } from "stream/consumers";
+
 interface YoutubeError {
     error: {
         code: number;
@@ -19,24 +21,26 @@ interface YoutubeError {
 export default async function getVideoInfo(youtube_video_id: string) {
     // console.log("executed getVideoInfo");
     try {
-        const response = await fetch(
-            `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2C%20liveStreamingDetails&id=${youtube_video_id}&key=${process.env.API_KEY}`
-        );
-
-        //Error testing
-
         // const response = await fetch(
-        //     `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2C%20liveStreamingDetails&id=${youtube_video_id}&key=231`
+        //     `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2C%20liveStreamingDetails&id=${youtube_video_id}&key=${process.env.API_KEY}`
         // );
 
+        // Error testing
+
+        const response = await fetch(
+            `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2C%20liveStreamingDetails&id=${youtube_video_id}s&key=${process.env.API_KEY}`
+        );
+
         if (!response.ok) {
-            throw new Error("Network response was not ok");
+            response.json().then((json: any) => {
+                throw new Error(`${json.code}, ${json.error.message}`);
+            });
         }
 
         const data = await response.json();
         return data;
-    } catch (error) {
-        console.error("Error fetching data:", error);
+    } catch (error: any) {
+        throw new Error(error);
     }
 }
 
