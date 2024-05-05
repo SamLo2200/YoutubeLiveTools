@@ -104,6 +104,28 @@ export default function LiveMarker() {
         }
     };
 
+    function mark() {
+        if (streamStartTime) {
+            let startTime = new Date(streamStartTime);
+            console.log(startTime.getTimezoneOffset() / 60);
+            let currentTime = new Date();
+            console.log(currentTime.getTimezoneOffset() / 60);
+
+            let minutesDifference = (currentTime.getTime() - startTime.getTime()) / 60000;
+            console.log(minutesDifference);
+
+            //10 seconds delay
+            let minutesDifOffset: number = minutesDifference - 0.166667;
+            let hours = Math.floor(minutesDifOffset / 60);
+            let remainingMinutes = Math.floor(minutesDifOffset % 60);
+            let seconds = Math.floor((minutesDifOffset * 60) % 60);
+
+            //prettier-ignore
+            let output = `${hours}:${String(remainingMinutes).padStart(2, "0")}:${String(seconds).padStart(2,"0")}`;
+            console.log(output);
+        }
+    }
+
     if (!isProvided) {
         return (
             <>
@@ -160,6 +182,8 @@ export default function LiveMarker() {
                             </div>
                         </Suspense>
                     </Card>
+
+                    <Button onClick={mark}>記錄</Button>
                 </div>
             </>
         );
