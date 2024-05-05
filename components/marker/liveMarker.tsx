@@ -36,6 +36,13 @@ export default function LiveMarker() {
             (async function () {
                 try {
                     const data = await getVideoInfo(vid);
+                    console.log(data);
+                    if (!data.ok) {
+                        console.log(data);
+                        throw new Error(
+                            `An error occured within the reponse. ${data.error.code}: ${data.error.message}`
+                        );
+                    }
                     // console.log(data);
                     setVideoInfoJson(data);
                 } catch (error) {
