@@ -38,15 +38,13 @@ export default function LiveMarker() {
                     const data = await getVideoInfo(vid);
                     console.log(data);
                     if (!data.ok) {
-                        console.log(data);
                         throw new Error(
                             `An error occured within the reponse. ${data.error.code}: ${data.error.message}`
                         );
                     }
-                    // console.log(data);
                     setVideoInfoJson(data);
                 } catch (error) {
-                    console.error("Error fetching video info:", error);
+                    throw new Error(`${error}`);
                 }
             })();
 
@@ -132,21 +130,25 @@ export default function LiveMarker() {
             <>
                 <div className="video-info-card flex flex-row pt-40 justify-center items-center">
                     <Card className="w-[26%] min-w-[300px]">
-                        <div className="">
-                            <CardTitle className="m-7 leading-6">{videoTitle}</CardTitle>
-                            <CardDescription className="m-7 -mt-5">{creator}</CardDescription>
-                            <CardContent className="-mt-3">
-                                {thumbnailURL && (
-                                    <Image
-                                        src={thumbnailURL}
-                                        height="280"
-                                        width="640"
-                                        alt="The video thumbnaill"
-                                        className="rounded-2xl"
-                                    />
-                                )}
-                            </CardContent>
-                        </div>
+                        <Suspense fallback={<p>loading...</p>}>
+                            <div className="">
+                                <CardTitle className="m-7 leading-6">{videoTitle}</CardTitle>
+                                <CardDescription className="m-7 -mt-5">
+                                    {creator}
+                                </CardDescription>
+                                <CardContent className="-mt-3">
+                                    {thumbnailURL && (
+                                        <Image
+                                            src={thumbnailURL}
+                                            height="280"
+                                            width="640"
+                                            alt="The video thumbnaill"
+                                            className="rounded-2xl"
+                                        />
+                                    )}
+                                </CardContent>
+                            </div>
+                        </Suspense>
                     </Card>
                 </div>
             </>

@@ -35,7 +35,7 @@ export default async function getVideoInfo(youtube_video_id: string) {
         return {
             ok: false,
             error: {
-                code: data?.error?.code ?? undefined,
+                code: data?.error?.code ?? 400,
                 message: data?.error?.message ?? "It is not a livestream or is unavailable",
             },
         };
