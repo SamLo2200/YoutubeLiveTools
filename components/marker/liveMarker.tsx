@@ -29,6 +29,8 @@ export default function LiveMarker() {
     const [creator, setCreator] = useState<string | null>(null);
     const [thumbnailURL, setThumbnailURL] = useState<string | null>(null);
 
+    const [fetchVideoInfoError, setFetchVideoInfoError] = useState<string | null>(null);
+
     //Obtain streaming info
 
     useEffect(() => {
@@ -38,6 +40,9 @@ export default function LiveMarker() {
                     const data = await getVideoInfo(vid);
                     console.log(data);
                     if (!data.ok) {
+                        setFetchVideoInfoError(
+                            `An error occured within the reponse. ${data.error.code}: ${data.error.message}`
+                        );
                         throw new Error(
                             `An error occured within the reponse. ${data.error.code}: ${data.error.message}`
                         );
@@ -131,6 +136,11 @@ export default function LiveMarker() {
                 <div className="video-info-card flex flex-row pt-40 justify-center items-center">
                     <Card className="w-[26%] min-w-[300px]">
                         <Suspense fallback={<p>loading...</p>}>
+                            {fetchVideoInfoError && (
+                                <CardDescription className="m-7">
+                                    {fetchVideoInfoError}
+                                </CardDescription>
+                            )}
                             <div className="">
                                 <CardTitle className="m-7 leading-6">{videoTitle}</CardTitle>
                                 <CardDescription className="m-7 -mt-5">
