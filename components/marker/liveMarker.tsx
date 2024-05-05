@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FormEvent, useCallback, useEffect, useState } from "react";
+import { FormEvent, Suspense, useCallback, useEffect, useState } from "react";
 
 import { vidParser } from "@/lib/vidParser";
 
@@ -17,6 +17,8 @@ import Link from "next/link";
 import getVideoInfo from "@/lib/youtube_api";
 import { any } from "zod";
 import Image from "next/image";
+import { error } from "console";
+import testingPromise from "@/lib/youtube_api";
 
 export default function LiveMarker() {
     const [isProvided, setIsProvided] = useState<boolean>(false);
@@ -29,12 +31,28 @@ export default function LiveMarker() {
 
     //Obtain streaming info
 
-    async function apiRequestHandler() {
-        (async () => {
-            // console.log(vid);
-            setVideoInfoJson(await getVideoInfo(vid || "uWvRx-uawIk"));
-        })();
-    }
+    useEffect(() => {
+        if (vid) {
+            (async function () {
+                try {
+                    const data = await getVideoInfo(vid);
+                    // console.log(data);
+                    setVideoInfoJson(data);
+                } catch (error) {
+                    console.error("Error fetching video info:", error);
+                }
+            })();
+
+            // (async function () {
+            //     try {
+            //         const data: string = await testingPromise(vid);
+            //         console.log(data);
+            //     } catch (error) {
+            //         throw new Error(error);
+            //     }
+            // })();
+        }
+    }, [vid]);
 
     useEffect(() => {
         if (videoInfoJson != null) {
@@ -68,15 +86,13 @@ export default function LiveMarker() {
 
         const formData = new FormData(event.currentTarget);
 
-        setVid(vidParser(formData.get("youtube-url")?.toString() || ""));
-        setIsProvided(true);
-    };
-
-    useEffect(() => {
-        if (vid) {
-            apiRequestHandler();
+        if (formData.get("youtube-url")?.toString() !== "") {
+            setVid(vidParser(formData.get("youtube-url")?.toString() || ""));
+            setIsProvided(true);
+        } else {
+            throw new Error("The input is invaild");
         }
-    }, [vid]);
+    };
 
     if (!isProvided) {
         return (
