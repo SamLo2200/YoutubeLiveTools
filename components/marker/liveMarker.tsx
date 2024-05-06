@@ -19,6 +19,7 @@ import { any } from "zod";
 import Image from "next/image";
 import { error } from "console";
 import testingPromise from "@/lib/youtube_api";
+import TestComp from "./testComp";
 
 export default function LiveMarker() {
     const [isProvided, setIsProvided] = useState<boolean>(false);
@@ -158,6 +159,7 @@ export default function LiveMarker() {
                 <div className="video-info-card flex flex-row pt-40 justify-center items-center">
                     <Card className="w-[26%] min-w-[300px]">
                         <Suspense fallback={<p>loading...</p>}>
+                            <TestComp />
                             {fetchVideoInfoError && (
                                 <CardDescription className="m-7">
                                     {fetchVideoInfoError}
