@@ -12,7 +12,10 @@ function useAPIFetch() {
     }, []);
 
     if (loading) {
-        throw Promise.resolve(null);
+        // throw Promise.resolve(null);
+        throw new Promise((resolve) => {
+            resolve(null);
+        });
     } else {
         return "Hello World";
     }

@@ -5,14 +5,7 @@ import { FormEvent, Suspense, useCallback, useEffect, useState } from "react";
 
 import { vidParser } from "@/lib/vidParser";
 
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import getVideoInfo from "@/lib/youtube_api";
 import { any } from "zod";
@@ -20,6 +13,8 @@ import Image from "next/image";
 import { error } from "console";
 import testingPromise from "@/lib/youtube_api";
 import TestComp from "./testComp";
+import CardLoadingSkeleton from "./infoLoadingSkeleton";
+import InfoLoadingSkeleton from "./infoLoadingSkeleton";
 
 export default function LiveMarker() {
     const [isProvided, setIsProvided] = useState<boolean>(false);
@@ -38,15 +33,12 @@ export default function LiveMarker() {
         if (vid) {
             (async function () {
                 try {
+                    // const data = await getVideoInfo(vid);
                     const data = await getVideoInfo(vid);
                     console.log(data);
                     if (!data.ok) {
-                        setFetchVideoInfoError(
-                            `An error occured within the reponse. ${data.error.code}: ${data.error.message}`
-                        );
-                        throw new Error(
-                            `An error occured within the reponse. ${data.error.code}: ${data.error.message}`
-                        );
+                        setFetchVideoInfoError(`An error occured within the reponse. ${data.error.code}: ${data.error.message}`);
+                        throw new Error(`An error occured within the reponse. ${data.error.code}: ${data.error.message}`);
                     }
                     setVideoInfoJson(data);
                 } catch (error) {
@@ -70,9 +62,7 @@ export default function LiveMarker() {
             try {
                 console.log(videoInfoJson);
 
-                setStreamStartTime(
-                    videoInfoJson.items[0].liveStreamingDetails.actualStartTime
-                );
+                setStreamStartTime(videoInfoJson.items[0].liveStreamingDetails.actualStartTime);
                 setVideoTitle(videoInfoJson.items[0].snippet.title);
                 setCreator(videoInfoJson.items[0].snippet.channelTitle);
                 setThumbnailURL(videoInfoJson.items[0].snippet.thumbnails.maxres.url);
@@ -84,9 +74,7 @@ export default function LiveMarker() {
 
     useEffect(() => {
         if (streamStartTime || videoTitle || creator || thumbnailURL) {
-            console.log(
-                `Title:${videoTitle}, Creator:${creator}, Start Time:${streamStartTime}, Thumbnail:${thumbnailURL}`
-            );
+            console.log(`Title:${videoTitle}, Creator:${creator}, Start Time:${streamStartTime}, Thumbnail:${thumbnailURL}`);
         }
     }, [streamStartTime, videoTitle, creator, thumbnailURL]);
 
@@ -134,16 +122,10 @@ export default function LiveMarker() {
                     <Card className="w-[26%] min-w-[300px]">
                         <CardHeader>
                             <CardTitle>Youtube Live Timestamp Creator</CardTitle>
-                            <CardDescription className="">
-                                Allowing you to record important moments of the live and export
-                                it as a timestamp.
-                            </CardDescription>
+                            <CardDescription className="">Allowing you to record important moments of the live and export it as a timestamp.</CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <form
-                                className="grid w-full items-center gap-4"
-                                onSubmit={FormHandler}
-                            >
+                            <form className="grid w-full items-center gap-4" onSubmit={FormHandler}>
                                 <Label htmlFor="youtube-url">Live URL</Label>
                                 <Input type="text" name="youtube-url"></Input>
                                 <Button type="submit"> Confirm </Button>
@@ -156,33 +138,17 @@ export default function LiveMarker() {
     } else {
         return (
             <>
+                <Suspense fallback={<InfoLoadingSkeleton />}>
+                    <TestComp />
+                </Suspense>
                 <div className="video-info-card flex flex-row pt-40 justify-center items-center">
                     <Card className="w-[26%] min-w-[300px]">
-                        <Suspense fallback={<p>loading...</p>}>
-                            <TestComp />
-                            {fetchVideoInfoError && (
-                                <CardDescription className="m-7">
-                                    {fetchVideoInfoError}
-                                </CardDescription>
-                            )}
-                            <div className="">
-                                <CardTitle className="m-7 leading-6">{videoTitle}</CardTitle>
-                                <CardDescription className="m-7 -mt-5">
-                                    {creator}
-                                </CardDescription>
-                                <CardContent className="-mt-3">
-                                    {thumbnailURL && (
-                                        <Image
-                                            src={thumbnailURL}
-                                            height="280"
-                                            width="640"
-                                            alt="The video thumbnaill"
-                                            className="rounded-2xl"
-                                        />
-                                    )}
-                                </CardContent>
-                            </div>
-                        </Suspense>
+                        {fetchVideoInfoError && <CardDescription className="m-7">{fetchVideoInfoError}</CardDescription>}
+                        <div className="">
+                            <CardTitle className="m-7 leading-6">{videoTitle}</CardTitle>
+                            <CardDescription className="m-7 -mt-5">{creator}</CardDescription>
+                            <CardContent className="-mt-3">{thumbnailURL && <Image src={thumbnailURL} height="280" width="640" alt="The video thumbnaill" className="rounded-2xl" />}</CardContent>
+                        </div>
                     </Card>
 
                     <Button onClick={mark}>記錄</Button>
