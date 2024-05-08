@@ -14,11 +14,22 @@ export default function TestComp() {
     const [thumbnaillHeight, setThumbnaillHeight] = useState<number>();
     const [thumbnaillWidth, setThumbnaillWidth] = useState<number>();
 
+    const [fetchVideoInfoError, setFetchVideoInfoError] = useState<string | null>(null);
+
     //Obtain livestream info
-    let jsonResponse = useFetchStreamingInfo("V11f6AeUFB0");
+    const jsonResponse: any = useFetchStreamingInfo("V11f6AeUFB0");
     useEffect(() => {
         if (jsonResponse) {
-            setVideoInfoJson(jsonResponse);
+            try {
+                if (!jsonResponse.ok) {
+                    setFetchVideoInfoError(`An error occured within the reponse. ${jsonResponse.error.code}: ${jsonResponse.error.message}`);
+                    throw new Error(`An error occured within the reponse. ${jsonResponse.error.code}: ${jsonResponse.error.message}`);
+                } else {
+                    setVideoInfoJson(jsonResponse);
+                }
+            } catch (error: any) {
+                throw new Error(error);
+            }
         }
     }, [jsonResponse]);
 
@@ -44,7 +55,7 @@ export default function TestComp() {
     return (
         <div className="info-card-wrapper">
             <Card className="info-card-parent">
-                <div className="info-card-thumbnail">{thumbnailURL && <Image src={thumbnailURL} height={180} width={200} alt="The video thumbnaill" className="" />}</div>
+                <div className="info-card-thumbnail">{thumbnailURL && <Image src={thumbnailURL} height={thumbnaillHeight} width={thumbnaillWidth} alt="The video thumbnaill" className="" />}</div>
 
                 <div className="info-card-meta-wrapper">
                     <CardTitle className="info-card-title heading2">{videoTitle}</CardTitle>
