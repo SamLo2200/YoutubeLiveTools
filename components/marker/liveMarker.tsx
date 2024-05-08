@@ -151,7 +151,7 @@ export default function LiveMarker() {
                         </div>
                     </Card>
 
-                    <Button onClick={mark}>記錄</Button>
+                    {/* <Button onClick={mark}>記錄</Button> */}
                 </div>
             </>
         );

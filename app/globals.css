@@ -74,3 +74,40 @@
         @apply bg-background text-foreground;
     }
 }
+
+.heading2 {
+    line-height: 110%;
+}
+
+.info-card-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.info-card-parent {
+    display: flex;
+    align-items: center;
+
+    gap: 0.7rem;
+
+    width: 70%;
+    min-width: 300px;
+    max-width: 1500px;
+    margin: 3rem 0px;
+    padding: 0.8rem;
+}
+
+.info-card-meta-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.info-card-thumbnail {
+    height: 50px;
+}
+.info-card-thumbnail img {
+    max-height: 100%;
+    width: auto;
+}

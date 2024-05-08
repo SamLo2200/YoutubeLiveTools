@@ -35,23 +35,20 @@ export default function TestComp() {
                 setThumbnailURL(videoInfoJson.items[0].snippet.thumbnails.maxres.url as string);
                 setThumbnaillHeight(videoInfoJson.items[0].snippet.thumbnails.maxres.height as number);
                 setThumbnaillWidth(videoInfoJson.items[0].snippet.thumbnails.maxres.width as number);
-            } catch (error: unknown) {
+            } catch (error: any) {
                 throw new Error(error);
             }
         }
     }, [videoInfoJson]);
 
     return (
-        <div className="info-wrapper flex justify-center items-center pt-9 max-h-32">
-            <Card className="w-[70%] min-w-[300px] min-h-[20px] max-h-32">
-                <div className="flex items-center space-x-4 m-5 ">
-                    <CardContent className="p-0 max-w-[30%] m-0">
-                        {thumbnailURL && <Image src={thumbnailURL} height={thumbnaillHeight} width={thumbnaillWidth} alt="The video thumbnaill" className="rounded-md" />}
-                    </CardContent>
-                    <div className="">
-                        <CardTitle className="leading-6">{videoTitle}</CardTitle>
-                        <CardDescription className="">{creator}</CardDescription>
-                    </div>
+        <div className="info-card-wrapper">
+            <Card className="info-card-parent">
+                <div className="info-card-thumbnail">{thumbnailURL && <Image src={thumbnailURL} height={180} width={200} alt="The video thumbnaill" className="" />}</div>
+
+                <div className="info-card-meta-wrapper">
+                    <CardTitle className="info-card-title heading2">{videoTitle}</CardTitle>
+                    <CardDescription className="info-card-creator">{creator}</CardDescription>
                 </div>
             </Card>
         </div>
