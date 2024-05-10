@@ -106,7 +106,7 @@
 
 .info-card-thumbnail {
     height: 4.5rem;
-    min-width: 127px;
+    min-width: fit-content;
 }
 .info-card-thumbnail img {
     max-height: 100%;
