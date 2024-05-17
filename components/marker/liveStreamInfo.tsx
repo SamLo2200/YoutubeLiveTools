@@ -4,7 +4,7 @@ import { Skeleton } from "../ui/skeleton";
 import { Card, CardContent, CardDescription, CardTitle } from "../ui/card";
 import Image from "next/image";
 
-export default function TestComp() {
+export default function LiveStreamInfo() {
     const [videoInfoJson, setVideoInfoJson] = useState<any>(null);
     const [streamStartTime, setStreamStartTime] = useState<string | null>(null);
     const [videoTitle, setVideoTitle] = useState<string | null>(null);
@@ -53,15 +53,12 @@ export default function TestComp() {
     }, [videoInfoJson]);
 
     return (
-        <div className="info-card-wrapper">
-            <Card className="info-card-parent">
-                <div className="info-card-thumbnail">{thumbnailURL && <Image src={thumbnailURL} height={thumbnaillHeight} width={thumbnaillWidth} alt="The video thumbnaill" className="" />}</div>
-
-                <div className="info-card-meta-wrapper">
-                    <CardTitle className="info-card-title heading2">{videoTitle}</CardTitle>
-                    <CardDescription className="info-card-creator">{creator}</CardDescription>
-                </div>
-            </Card>
-        </div>
+        <>
+            <div className="info-card-thumbnail">{thumbnailURL && <Image src={thumbnailURL} height={thumbnaillHeight} width={thumbnaillWidth} alt="The video thumbnaill" className="" />}</div>
+            <div className="info-card-meta-wrapper">
+                <CardTitle className="info-card-title heading2">{videoTitle}</CardTitle>
+                <CardDescription className="info-card-creator">{creator}</CardDescription>
+            </div>
+        </>
     );
 }
