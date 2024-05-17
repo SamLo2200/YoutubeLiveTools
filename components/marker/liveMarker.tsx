@@ -5,9 +5,17 @@ import { FormEvent, Suspense, useCallback, useEffect, useState } from "react";
 
 import { vidParser } from "@/lib/vidParser";
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import InfoLoadingSkeleton from "./infoLoadingSkeleton";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import InfoLoadingSkeleton from "./InfoLoadingSkeleton";
 import LiveStreamInfo from "./LiveStreamInfo";
+import ErrorBoundary from "../ErrorBoundary";
 
 export default function LiveMarker() {
     const [isProvided, setIsProvided] = useState<boolean>(false);
@@ -18,7 +26,9 @@ export default function LiveMarker() {
     const [creator, setCreator] = useState<string | null>(null);
     const [thumbnailURL, setThumbnailURL] = useState<string | null>(null);
 
-    const [fetchVideoInfoError, setFetchVideoInfoError] = useState<string | null>(null);
+    const [fetchVideoInfoError, setFetchVideoInfoError] = useState<
+        string | null
+    >(null);
 
     //Obtain streaming info
 
@@ -93,7 +103,8 @@ export default function LiveMarker() {
             let currentTime = new Date();
             console.log(currentTime.getTimezoneOffset() / 60);
 
-            let minutesDifference = (currentTime.getTime() - startTime.getTime()) / 60000;
+            let minutesDifference =
+                (currentTime.getTime() - startTime.getTime()) / 60000;
             console.log(minutesDifference);
 
             //10 seconds delay
@@ -114,11 +125,18 @@ export default function LiveMarker() {
                 <div className="flex flex-row pt-40 justify-center items-center">
                     <Card className="w-[26%] min-w-[300px]">
                         <CardHeader>
-                            <CardTitle>Youtube Live Timestamp Creator</CardTitle>
-                            <CardDescription className="">Allowing you to record important moments of the live and export it as a timestamp.</CardDescription>
+                            <CardTitle>
+                                Youtube Live Timestamp Creator
+                            </CardTitle>
+                            <CardDescription className="">
+                                Allowing you to record important moments of the
+                                live and export it as a timestamp.
+                            </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <form className="grid w-full items-center gap-4" onSubmit={FormHandler}>
+                            <form
+                                className="grid w-full items-center gap-4"
+                                onSubmit={FormHandler}>
                                 <Label htmlFor="youtube-url">Live URL</Label>
                                 <Input type="text" name="youtube-url"></Input>
                                 <Button type="submit"> Confirm </Button>
@@ -133,9 +151,11 @@ export default function LiveMarker() {
             <>
                 <div className="info-card-wrapper">
                     <Card className="info-card-parent">
-                        <Suspense fallback={<InfoLoadingSkeleton />}>
-                            <LiveStreamInfo />
-                        </Suspense>
+                        <ErrorBoundary>
+                            <Suspense fallback={<InfoLoadingSkeleton />}>
+                                <LiveStreamInfo />
+                            </Suspense>
+                        </ErrorBoundary>
                     </Card>
                 </div>
                 {/* <div className="video-info-card flex flex-row pt-40 justify-center items-center">

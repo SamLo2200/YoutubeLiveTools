@@ -1,6 +1,6 @@
 import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 import { Skeleton } from "../ui/skeleton";
-import "./infoLoadingSkeleton.css";
+import "./InfoLoadingSkeleton.css";
 
 export default function InfoLoadingSkeleton() {
     return (
