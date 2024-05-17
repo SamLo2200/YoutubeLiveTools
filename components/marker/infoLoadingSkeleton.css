@@ -4,10 +4,8 @@
     justify-content: space-between;
 }
 .info-card-thumbnail-skeleton .image {
-    /* height: 4.5rem; */
-    /* width: 127px; */
-    width: 4.5rem;
-    height: 3rem;
+    height: 4.5rem;
+    width: 127px;
     border-radius: 5px;
 }
 .info-card-meta-wrapper-skeleton {

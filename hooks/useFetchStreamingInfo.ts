@@ -10,13 +10,15 @@ export default function useFetchStreamingInfo(youtube_video_id: string) {
         (async () => {
             let data = await getVideoInfo(youtube_video_id);
 
-            // setStreamingInfo(data);
-            // setIsFetching(false);
+            setStreamingInfo(data);
+            setIsFetching(false);
 
-            setTimeout(() => {
-                setStreamingInfo(data);
-                // setIsFetching(false);
-            }, 3000);
+            //Reserved for skeleton testing
+
+            // setTimeout(() => {
+            //     setStreamingInfo(data);
+            //     setIsFetching(false);
+            // }, 3000);
         })();
     }, [youtube_video_id]);
 
