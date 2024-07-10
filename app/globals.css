@@ -75,16 +75,16 @@
     }
 }
 
-.heading2 {
+/* .heading2 {
     line-height: 110%;
-}
+} */
 
-.info-card-wrapper {
+/* .info-card-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
+} */
+/* 
 .info-card-parent {
     display: flex;
     align-items: center;
@@ -96,15 +96,15 @@
     max-width: 1500px;
     margin: 3rem 0px;
     padding: 0.8rem;
-}
+} */
 
-.info-card-meta-wrapper {
+/* .info-card-meta-wrapper {
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
-}
+} */
 
-.info-card-thumbnail {
+/* .info-card-thumbnail {
     height: 4.5rem;
     min-width: fit-content;
 }
@@ -113,4 +113,4 @@
     width: auto;
     object-fit: contain;
     border-radius: 5px;
-}
+} */

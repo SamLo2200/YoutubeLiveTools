@@ -2,14 +2,6 @@
 
 import { text } from "stream/consumers";
 
-interface YoutubeError {
-    error: {
-        code: number;
-        message: string;
-        reason: string;
-    };
-}
-
 // export default async function testingPromise(youtube_video_id: string) {
 //     return new Promise<string>((resolve, reject) => {
 //         setTimeout(() => {

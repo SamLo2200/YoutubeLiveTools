@@ -9,7 +9,11 @@ export const metadata = {
         "Allowing you to record important moments of the live and export it as a timestamp.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
     return (
         <html lang="en">
             <body>
