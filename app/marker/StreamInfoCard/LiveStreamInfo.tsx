@@ -36,14 +36,14 @@ export default function LiveStreamInfo() {
                     setVideoInfo(jsonResponse);
                 }
             } catch (error: any) {
-                throw new Error(error);
+                throw Error(`An error occured, the url is invaild`);
             }
         }
     }, [jsonResponse, setVideoInfo]);
 
     return (
         <>
-            <div className="info-card-thumbnail h-16 min-w-fit">
+            <div className="info-card-thumbnail h-12 min-w-fit">
                 <Image
                     src={
                         getVideoInfo?.items[0]?.snippet?.thumbnails?.maxres
@@ -61,12 +61,11 @@ export default function LiveStreamInfo() {
                     className="max-h-full w-auto object-contain rounded-lg"
                 />
             </div>
-
-            <div className="info-card-meta-wrapper">
-                <CardTitle className="info-card-title leading-[110%]">
+            <div className="info-card-meta-wrapper truncate flex flex-col gap-1">
+                <CardTitle className="info-card-title leading-[110%] truncate font-normal">
                     {getVideoInfo?.items[0]?.snippet?.title}
                 </CardTitle>
-                <CardDescription className="info-card-creator">
+                <CardDescription className="info-card-creator truncate font-normal">
                     {getVideoInfo?.items[0]?.snippet?.channelTitle}
                 </CardDescription>
             </div>

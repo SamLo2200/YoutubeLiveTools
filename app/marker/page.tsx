@@ -16,11 +16,12 @@ export default function Main() {
                 </NavBar>
             </nav>
 
-            <aside className="sidebar-control fixed top-0 w-[400px] shadow-sm pt-20 p-4 px-9 h-screen bg-white text-sm">
+            <aside className="sidebar-control fixed top-0 w-[450px] shadow-sm pt-24 p-4 px-9 h-screen bg-white text-sm">
                 <StreamPicker />
+                <div className="breakline flex justify-center items-center">
+                    <hr className="my-3 w-[93%]"></hr>
+                </div>
             </aside>
-
-            {/* <LiveMarker /> */}
         </>
     );
 }

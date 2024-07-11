@@ -27,7 +27,7 @@ export default function StreamPicker() {
     }
 
     return (
-        <div className="video-picker gap-2 flex flex-col">
+        <div className="video-picker gap-3 flex flex-col">
             <p>直播連結</p>
             <div className="url-input">
                 <form
@@ -49,7 +49,7 @@ export default function StreamPicker() {
 
                 isProvided && (
                     <div className="info-card-wrapper flex justify-center items-centers">
-                        <Card className="info-card-parent flex items-center gap-3 w-full min-w-[300px] max-w-[1500px] mt-12 my-2 p-2">
+                        <Card className="info-card-parent flex items-center gap-3 w-full min-w-[300px] max-w-[1500px] mt-12 my-2 p-5 py-3 shadow-none border-none bg-slate-50 truncate rounded-sm">
                             <ErrorBoundary>
                                 <Suspense fallback={<InfoLoadingSkeleton />}>
                                     <LiveStreamInfo />
