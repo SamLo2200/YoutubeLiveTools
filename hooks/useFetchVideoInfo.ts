@@ -1,11 +1,11 @@
 import getVideoInfo from "@/lib/youtube_api";
-import { VideoListResponse } from "@/types/streamingInfo";
+import { VideoListResponse } from "@/types/VideoInfoJson";
 import { useEffect, useState } from "react";
 
-export default function useFetchStreamingInfo(
+export default function useFetchVideoInfo(
     youtube_video_id: string
 ): VideoListResponse {
-    const [streamingInfo, setStreamingInfo] = useState<VideoListResponse>();
+    const [videoInfo, setVideoInfo] = useState<VideoListResponse>();
     const [isFetching, setIsFetching] = useState<boolean>(false);
 
     useEffect(() => {
@@ -14,7 +14,7 @@ export default function useFetchStreamingInfo(
             let data = await getVideoInfo(youtube_video_id);
 
             if (data !== undefined || data !== null) {
-                setStreamingInfo(data);
+                setVideoInfo(data);
                 setIsFetching(false);
             }
 
@@ -30,6 +30,6 @@ export default function useFetchStreamingInfo(
     if (isFetching) {
         throw Promise.resolve(null);
     } else {
-        return streamingInfo as VideoListResponse;
+        return videoInfo as VideoListResponse;
     }
 }

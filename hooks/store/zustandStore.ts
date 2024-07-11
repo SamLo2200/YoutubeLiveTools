@@ -1,13 +1,12 @@
 "use client";
 
-import { StreamingInfoJson } from "@/types/streamingInfo";
-import { string } from "zod";
+import { VideoInfoJson } from "@/types/VideoInfoJson";
+import { UseVideoInfoStoreType, UseVidStoreType } from "@/types/zusrandStore";
 import { create } from "zustand";
 
-export const useStreamingInfoStore = create((set) => ({
-    streamingInfo: {},
-    addStreamingInfo: (jsonData: StreamingInfoJson) =>
-        set({ streamingInfo: jsonData }),
+export const useVideoInfoStore = create<UseVideoInfoStoreType>((set) => ({
+    videoInfo: undefined,
+    setVideoInfo: (videoInfo: VideoInfoJson) => set({ videoInfo: videoInfo }),
 }));
 
 export const useVidStore = create<UseVidStoreType>((set) => ({

@@ -48,10 +48,10 @@ interface PageInfo {
 
 interface VideoListResponse {
     ok: boolean;
-    kind?: string;
-    etag?: string;
-    items?: Item[];
-    pageInfo?: PageInfo;
+    kind: string;
+    etag: string;
+    items: Item[];
+    pageInfo: PageInfo;
 }
 
 interface ErrorReponse {
@@ -62,4 +62,4 @@ interface ErrorReponse {
     };
 }
 
-export type StreamingInfoJson = VideoListResponse & ErrorReponse;
+export type VideoInfoJson = VideoListResponse & ErrorReponse;
