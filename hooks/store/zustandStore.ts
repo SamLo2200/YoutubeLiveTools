@@ -10,11 +10,6 @@ export const useStreamingInfoStore = create((set) => ({
         set({ streamingInfo: jsonData }),
 }));
 
-interface UseVidStoreType {
-    vid: string;
-    setVid: (vid: string) => void;
-}
-
 export const useVidStore = create<UseVidStoreType>((set) => ({
     vid: "",
     setVid: (vid) => set({ vid }),

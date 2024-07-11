@@ -33,17 +33,19 @@ export default function LiveStreamInfo() {
     >(null);
 
     //Obtain livestream info
-    const jsonResponse: streamingInfoJson =
-        useFetchStreamingInfo("V11f6AeUFB0");
+    const jsonResponse: streamingInfoJson = useFetchStreamingInfo(
+        "V11f6AeUFB0"
+    ) as streamingInfoJson;
 
     useEffect(() => {
         if (jsonResponse) {
+            console.log(jsonResponse);
             try {
                 if (!jsonResponse.ok) {
                     setFetchVideoInfoError(
-                        `An error occured within the reponse. ${jsonResponse.error.code}: ${jsonResponse.error.message}`
+                        `An error occured within the reponse. ${jsonResponse?.error?.code}: ${jsonResponse?.error?.message}`
                     );
-                    throw `An error occured within the reponse. ${jsonResponse.error.code}: ${jsonResponse.error.message}`;
+                    throw `An error occured within the reponse. ${jsonResponse?.error?.code}: ${jsonResponse?.error?.message}`;
                 } else {
                     setVideoInfoJson(jsonResponse);
                     setStreamingInfo(jsonResponse);
