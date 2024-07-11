@@ -1,8 +1,11 @@
 import getVideoInfo from "@/lib/youtube_api";
+import { VideoListResponse } from "@/types/streamingInfo";
 import { useEffect, useState } from "react";
 
-export default function useFetchStreamingInfo(youtube_video_id: string) {
-    const [streamingInfo, setStreamingInfo] = useState<string | null>(null);
+export default function useFetchStreamingInfo(
+    youtube_video_id: string
+): VideoListResponse {
+    const [streamingInfo, setStreamingInfo] = useState<VideoListResponse>();
     const [isFetching, setIsFetching] = useState<boolean>(false);
 
     useEffect(() => {
@@ -10,8 +13,10 @@ export default function useFetchStreamingInfo(youtube_video_id: string) {
         (async () => {
             let data = await getVideoInfo(youtube_video_id);
 
-            setStreamingInfo(data);
-            setIsFetching(false);
+            if (data !== undefined || data !== null) {
+                setStreamingInfo(data);
+                setIsFetching(false);
+            }
 
             //Reserved for skeleton testing
 
@@ -25,45 +30,6 @@ export default function useFetchStreamingInfo(youtube_video_id: string) {
     if (isFetching) {
         throw Promise.resolve(null);
     } else {
-        return streamingInfo;
+        return streamingInfo as VideoListResponse;
     }
 }
-
-// return fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2C%20liveStreamingDetails&id=${youtube_video_id}&key=${process.env.API_KEY}`)
-//     .then((response) => {
-//         if (!response.ok) {
-//             return {
-//                 ok: false,
-//                 error: {
-//                     code: 502,
-//                     message: "Network reponse was not ok.",
-//                 },
-//             };
-//         }
-
-//         return response.json();
-//     })
-//     .then((data) => {
-//         if (data.items == null || data.items.length === 0) {
-//             console.log(data);
-//             return {
-//                 ok: false,
-//                 error: {
-//                     code: data?.error?.code ?? 400,
-//                     message: data?.error?.message ?? "It is not a livestream or is unavailable",
-//                 },
-//             };
-//         }
-//         return { ok: true, ...data };
-//     })
-//     .catch((error) => {
-//         console.error("Error fetching video info:", error);
-//         return {
-//             ok: false,
-//             error: {
-//                 code: 500,
-//                 message: "An error occurred while fetching video info.",
-//             },
-//         };
-//     });
-// }

@@ -8,8 +8,8 @@ import {
     CardTitle,
 } from "../../../components/ui/card";
 import Image from "next/image";
-import { useStreamingInfoStore } from "@/hooks/store/zustandStore";
-import { streamingInfoJson, Welcome } from "@/types/streamingInfo";
+import { useStreamingInfoStore, useVidStore } from "@/hooks/store/zustandStore";
+import { StreamingInfoJson, VideoListResponse } from "@/types/streamingInfo";
 
 export default function LiveStreamInfo() {
     const [videoInfoJson, setVideoInfoJson] = useState<any>(null);
@@ -19,6 +19,10 @@ export default function LiveStreamInfo() {
     const getStreamingInfo = useStreamingInfoStore(
         (state: any) => state.streamingInfo
     );
+
+    const vid = {
+        get: useVidStore((state) => state.vid),
+    };
 
     const [streamStartTime, setStreamStartTime] = useState<string | null>(null);
     const [videoTitle, setVideoTitle] = useState<string | null>(null);
@@ -33,13 +37,12 @@ export default function LiveStreamInfo() {
     >(null);
 
     //Obtain livestream info
-    const jsonResponse: streamingInfoJson = useFetchStreamingInfo(
-        "V11f6AeUFB0"
-    ) as streamingInfoJson;
+
+    const jsonResponse: StreamingInfoJson = useFetchStreamingInfo(vid.get);
 
     useEffect(() => {
         if (jsonResponse) {
-            console.log(jsonResponse);
+            // console.log(jsonResponse);
             try {
                 if (!jsonResponse.ok) {
                     setFetchVideoInfoError(
@@ -54,7 +57,7 @@ export default function LiveStreamInfo() {
                 throw new Error(error);
             }
         }
-    }, [jsonResponse]);
+    }, [jsonResponse, setStreamingInfo]);
 
     //Process recieved info
     useEffect(() => {
