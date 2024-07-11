@@ -62,7 +62,7 @@ export default function LiveStreamInfo() {
                 />
             </div>
 
-            <div className="info-card-meta-wrapper flex flex-col gap-1">
+            <div className="info-card-meta-wrapper">
                 <CardTitle className="info-card-title leading-[110%]">
                     {getVideoInfo?.items[0]?.snippet?.title}
                 </CardTitle>
