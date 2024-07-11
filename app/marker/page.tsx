@@ -1,6 +1,6 @@
 import LiveMarker from "@/components/marker/LiveMarker";
 import NavBar from "@/components/NavBar";
-import MarkerIcon from "./MarkerIcon";
+import MarkerIcon from "../../Icons/MarkerIcon";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import StreamPicker from "./StreamPicker";

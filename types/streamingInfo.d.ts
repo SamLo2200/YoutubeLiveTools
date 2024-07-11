@@ -57,8 +57,8 @@ interface VideoListResponse {
 interface ErrorReponse {
     ok: boolean;
     error?: {
-        code: number;
-        message: string;
+        code?: number;
+        message?: string;
     };
 }
 
