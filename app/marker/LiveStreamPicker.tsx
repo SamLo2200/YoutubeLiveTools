@@ -10,7 +10,7 @@ import { useVidStore } from "@/hooks/store/zustandStore";
 import { vidParser } from "@/lib/vidParser";
 import { Suspense, useState } from "react";
 
-export default function StreamPicker() {
+export default function LiveStreamPicker() {
     const setVid = useVidStore((state) => state.setVid);
     const getVid = useVidStore((state) => state.vid);
 
