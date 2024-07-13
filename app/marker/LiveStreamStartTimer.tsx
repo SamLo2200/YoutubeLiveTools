@@ -4,7 +4,6 @@ import { useVideoInfoStore } from "@/hooks/store/zustandStore";
 import convertSeconds from "@/lib/convertSeconds";
 import { TimeObject } from "@/types/TimeObject";
 import { useEffect, useState } from "react";
-import { string } from "zod";
 
 export default function LiveStreamStartTimer() {
     const getLiveStartTimeInTS: number = useVideoInfoStore((state) =>
@@ -36,10 +35,10 @@ export default function LiveStreamStartTimer() {
         return (
             <div className="timer-wrapper flex flex-col justify-center items-center py-5 gap-1 w-full">
                 <p className="text-4xl font-extrabold text-slate-900">
-                    {` ${convertedTimeDif.displayWithoutOffset.hours}:${convertedTimeDif.displayWithoutOffset.minutes}:${convertedTimeDif.displayWithoutOffset.seconds}`}
+                    {` ${convertedTimeDif?.displayWithoutOffset.hours}:${convertedTimeDif?.displayWithoutOffset.minutes}:${convertedTimeDif?.displayWithoutOffset.seconds}`}
                 </p>
                 <p className="text-base font-normal flex flex-row items-center text-slate-900 gap-2">
-                    {` ${convertedTimeDif.displayWithOffset.hours}:${convertedTimeDif.displayWithOffset.minutes}:${convertedTimeDif.displayWithOffset.seconds}`}
+                    {` ${convertedTimeDif?.displayWithOffset.hours}:${convertedTimeDif?.displayWithOffset.minutes}:${convertedTimeDif?.displayWithOffset.seconds}`}
                     <span className="text-xs">{`(${offsetInSec} sec)`}</span>
                 </p>
 
