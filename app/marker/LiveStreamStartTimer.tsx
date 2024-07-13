@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { useVideoInfoStore } from "@/hooks/store/zustandStore";
 import convertSeconds from "@/lib/convertSeconds";
 import { TimeObject } from "@/types/TimeObject";
@@ -31,21 +32,21 @@ export default function LiveStreamStartTimer() {
         }
     }, 5);
 
-    return (
-        <div>
-            <p>
-                {" "}
-                The stream started at:
-                {convertedTimeDif &&
-                    ` ${convertedTimeDif.displayWithoutOffset.hours}:${convertedTimeDif.displayWithoutOffset.minutes}:${convertedTimeDif.displayWithoutOffset.seconds}`}
-            </p>
-            <br></br>
-            <p>
-                {" "}
-                The stream started at (With Offset):
-                {convertedTimeDif &&
-                    ` ${convertedTimeDif.displayWithOffset.hours}:${convertedTimeDif.displayWithOffset.minutes}:${convertedTimeDif.displayWithOffset.seconds}`}
-            </p>
-        </div>
-    );
+    if (convertedTimeDif) {
+        return (
+            <div className="timer-wrapper flex flex-col justify-center items-center py-5 gap-1 w-full">
+                <p className="text-4xl font-extrabold text-slate-900">
+                    {` ${convertedTimeDif.displayWithoutOffset.hours}:${convertedTimeDif.displayWithoutOffset.minutes}:${convertedTimeDif.displayWithoutOffset.seconds}`}
+                </p>
+                <p className="text-base font-normal flex flex-row items-center text-slate-900 gap-2">
+                    {` ${convertedTimeDif.displayWithOffset.hours}:${convertedTimeDif.displayWithOffset.minutes}:${convertedTimeDif.displayWithOffset.seconds}`}
+                    <span className="text-xs">{`(${offsetInSec} sec)`}</span>
+                </p>
+
+                <div className="action-center py-3 w-full flex justify-center items-center flex-row">
+                    <Button className="record-button w-4/5">記錄</Button>
+                </div>
+            </div>
+        );
+    }
 }
