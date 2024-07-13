@@ -31,6 +31,14 @@ export default function LiveStreamStartTimer() {
         }
     }, 5);
 
+    function record() {
+        if (convertedTimeDif?.displayWithOffset.seconds) {
+            console.log(
+                ` ${convertedTimeDif?.displayWithOffset.hours}:${convertedTimeDif?.displayWithOffset.minutes}:${convertedTimeDif?.displayWithOffset.seconds}`
+            );
+        }
+    }
+
     if (convertedTimeDif) {
         return (
             <div className="timer-wrapper flex flex-col justify-center items-center py-5 gap-1 w-full">
@@ -43,7 +51,9 @@ export default function LiveStreamStartTimer() {
                 </p>
 
                 <div className="action-center py-3 w-full flex justify-center items-center flex-row">
-                    <Button className="record-button w-4/5">記錄</Button>
+                    <Button className="record-button w-4/5" onClick={record}>
+                        記錄
+                    </Button>
                 </div>
             </div>
         );
