@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { TimeRecord, TimestampRecord } from "@/types/TimestampRecords";
 
 export default function LiveStreamStartTimer() {
+    // state that will be passed to convertSeconds parameter
     const getLiveStartTimeInTS: number = useVideoInfoStore((state) =>
         new Date(
             state.videoInfo?.items[0]?.liveStreamingDetails?.actualStartTime ??
@@ -30,9 +31,10 @@ export default function LiveStreamStartTimer() {
 
     const [offsetInSec, setOffsetInSec] = useState<number>(-10);
 
+    // State that handle convertSeconds return
     const [convertedTimeDif, setConvertedTimeDif] = useState<TimeObject>();
 
-    //pending records by the user
+    // Pending records by the user
     const [chosenTimestamp, setChosenTimestamp] = useState<string>("");
     const [pendingDescription, setPendingDescription] = useState<string>("");
 
