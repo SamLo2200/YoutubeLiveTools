@@ -73,7 +73,7 @@ export default function LiveStreamStartTimer() {
 
     function confirmInputDialog() {
         navigator.clipboard.writeText(
-            `${chosenTimestamp} ${pendingDescription}`
+            `${chosenTimestamp} ${pendingDescription} for vercel`
         );
 
         // Test feature
