@@ -49,20 +49,6 @@ export default function LiveStreamStartTimer() {
         }));
     }
 
-    setInterval(() => {
-        let convertedObject = convertSeconds(
-            (new Date().getTime() - getLiveStartTimeInTS) / 1000,
-            offsetInSec
-        );
-
-        if (
-            convertedObject.displayWithOffset.seconds &&
-            convertedObject.displayWithoutOffset.seconds !== "NaN"
-        ) {
-            setConvertedTimeDif(convertedObject);
-        }
-    }, 5);
-
     // Handle action center buttons
     function record() {
         if (convertedTimeDif?.displayWithOffset.seconds) {
@@ -88,6 +74,25 @@ export default function LiveStreamStartTimer() {
         setChosenTimestamp("");
         setPendingDescription("");
     }
+
+    // An interval to calculate what to display in the timer
+    useEffect(() => {
+        const intervalID = setInterval(() => {
+            let convertedObject = convertSeconds(
+                (new Date().getTime() - getLiveStartTimeInTS) / 1000,
+                offsetInSec
+            );
+
+            if (
+                convertedObject.displayWithOffset.seconds &&
+                convertedObject.displayWithoutOffset.seconds !== "NaN"
+            ) {
+                setConvertedTimeDif(convertedObject);
+            }
+        }, 5);
+
+        return () => clearInterval(intervalID);
+    }, [getLiveStartTimeInTS, offsetInSec]);
 
     if (convertedTimeDif) {
         return (
