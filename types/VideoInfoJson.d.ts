@@ -28,9 +28,9 @@ interface Snippet {
 }
 
 interface LiveStreamingDetails {
-    actualStartTime?: string;
-    actualEndTime?: string;
-    scheduledStartTime?: string;
+    actualStartTime?: Date;
+    actualEndTime?: Date;
+    scheduledStartTime?: Date;
 }
 
 interface Item {

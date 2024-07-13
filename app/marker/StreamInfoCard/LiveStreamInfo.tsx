@@ -28,7 +28,7 @@ export default function LiveStreamInfo() {
 
     useEffect(() => {
         if (jsonResponse) {
-            // console.log(jsonResponse);
+            console.log(jsonResponse);
             try {
                 if (!jsonResponse.ok) {
                     throw `An error occured within the reponse. ${jsonResponse?.error?.code}: ${jsonResponse?.error?.message}`;
