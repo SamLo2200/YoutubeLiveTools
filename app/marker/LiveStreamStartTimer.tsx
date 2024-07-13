@@ -1,9 +1,24 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { useVideoInfoStore } from "@/hooks/store/zustandStore";
 import convertSeconds from "@/lib/convertSeconds";
 import { TimeObject } from "@/types/TimeObject";
+
 import { useEffect, useState } from "react";
+
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { TimeRecord, TimestampRecord } from "@/types/TimestampRecords";
 
 export default function LiveStreamStartTimer() {
     const getLiveStartTimeInTS: number = useVideoInfoStore((state) =>
@@ -16,6 +31,21 @@ export default function LiveStreamStartTimer() {
     const [offsetInSec, setOffsetInSec] = useState<number>(-10);
 
     const [convertedTimeDif, setConvertedTimeDif] = useState<TimeObject>();
+
+    //pending records by the user
+    const [chosenTimestamp, setChosenTimestamp] = useState<string>("");
+    const [pendingDescription, setPendingDescription] = useState<string>("");
+
+    // Handle timestamps store
+    const [timestampRecords, addTimestampRecords] = useState<TimestampRecord>({
+        items: [{ timestamp: "0:00:00", description: "Intro" }],
+    });
+
+    function addRecord(newTimestampRecord: TimeRecord): void {
+        addTimestampRecords((prevTimestampRecords) => ({
+            items: [...prevTimestampRecords.items, newTimestampRecord],
+        }));
+    }
 
     setInterval(() => {
         let convertedObject = convertSeconds(
@@ -33,10 +63,27 @@ export default function LiveStreamStartTimer() {
 
     function record() {
         if (convertedTimeDif?.displayWithOffset.seconds) {
-            console.log(
+            setChosenTimestamp(
                 ` ${convertedTimeDif?.displayWithOffset.hours}:${convertedTimeDif?.displayWithOffset.minutes}:${convertedTimeDif?.displayWithOffset.seconds}`
             );
         }
+    }
+
+    function confirmInputDialog() {
+        navigator.clipboard.writeText(
+            `${chosenTimestamp}: ${pendingDescription} test`
+        );
+
+        // Test feature
+
+        addRecord({
+            timestamp: chosenTimestamp,
+            description: pendingDescription,
+        });
+
+        // Reset state
+        setChosenTimestamp("");
+        setPendingDescription("");
     }
 
     if (convertedTimeDif) {
@@ -51,10 +98,46 @@ export default function LiveStreamStartTimer() {
                 </p>
 
                 <div className="action-center py-3 w-full flex justify-center items-center flex-row">
-                    <Button className="record-button w-4/5" onClick={record}>
-                        記錄
-                    </Button>
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button
+                                className="record-button w-4/5"
+                                onClick={record}>
+                                記錄
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                    請為 {chosenTimestamp} 輸入簡介
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    <Input
+                                        placeholder="請輸入 Timestamp 簡介"
+                                        onChange={(event) =>
+                                            setPendingDescription(
+                                                event.target.value
+                                            )
+                                        }></Input>
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>取消</AlertDialogCancel>
+                                <AlertDialogAction onClick={confirmInputDialog}>
+                                    完成
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
                 </div>
+
+                <ul className="flex flex-col justify-center items-center text-slate-900">
+                    {timestampRecords.items.map((item, index) => (
+                        <li key={index}>
+                            {item.timestamp}: {item.description}
+                        </li>
+                    ))}
+                </ul>
             </div>
         );
     }
