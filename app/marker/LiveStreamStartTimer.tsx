@@ -23,7 +23,10 @@ export default function LiveStreamStartTimer() {
             offsetInSec
         );
 
-        if (!isNaN(convertedObject.seconds)) {
+        if (
+            convertedObject.displayWithOffset.seconds &&
+            convertedObject.displayWithoutOffset.seconds !== "NaN"
+        ) {
             setConvertedTimeDif(convertedObject);
         }
     }, 5);
@@ -34,7 +37,14 @@ export default function LiveStreamStartTimer() {
                 {" "}
                 The stream started at:
                 {convertedTimeDif &&
-                    ` ${convertedTimeDif?.hours}:${convertedTimeDif?.minutes}:${convertedTimeDif?.seconds}`}
+                    ` ${convertedTimeDif.displayWithoutOffset.hours}:${convertedTimeDif.displayWithoutOffset.minutes}:${convertedTimeDif.displayWithoutOffset.seconds}`}
+            </p>
+            <br></br>
+            <p>
+                {" "}
+                The stream started at (With Offset):
+                {convertedTimeDif &&
+                    ` ${convertedTimeDif.displayWithOffset.hours}:${convertedTimeDif.displayWithOffset.minutes}:${convertedTimeDif.displayWithOffset.seconds}`}
             </p>
         </div>
     );

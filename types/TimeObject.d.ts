@@ -1,5 +1,16 @@
 export interface TimeObject {
+    displayWithoutOffset: DisplayWithoutOffset;
+    displayWithOffset: DisplayWithOffset;
+}
+
+interface DisplayWithoutOffset {
     hours: string;
     minutes: string;
-    seconds: sting;
+    seconds: string;
+}
+
+interface DisplayWithOffset {
+    hours: string;
+    minutes: string;
+    seconds: string;
 }
