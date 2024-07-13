@@ -63,6 +63,7 @@ export default function LiveStreamStartTimer() {
         }
     }, 5);
 
+    // Handle action center buttons
     function record() {
         if (convertedTimeDif?.displayWithOffset.seconds) {
             setChosenTimestamp(
